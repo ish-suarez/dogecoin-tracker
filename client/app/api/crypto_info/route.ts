@@ -3,7 +3,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma'
 
-const DOGE_ID = Number(process.env.DOGE_ID); // CoinMarketCap ID for Dogecoin    
+const DOGE_ID = process.env.DOGE_ID; // CoinMarketCap ID for Dogecoin    
 
 const { dogePricesArchive } = prisma;
 
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
         );
         const data = await res.json();
         // Extract Dogecoin price from the response
-        const dogePrice = data.data[DOGE_ID].quote.USD.price;
+        const dogePrice = data.data[Number(DOGE_ID)].quote.USD.price;
         // Store the fetched price in the database
         await dogePricesArchive.create({data: {price: dogePrice}})
 
@@ -31,13 +31,4 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
     }
 
-}
-
-export async function POST(req: Request) {
-    
-
-
-
-
-    return NextResponse.json({ message: 'POST method not implemented' }, { status: 501 });
 }
