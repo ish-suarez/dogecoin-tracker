@@ -56,7 +56,7 @@ export default function Page() {
     return (
         <> {loading ? <p>Loading...</p> :
             <LineChart
-                className="h-96 w-1/4"
+                className="h-96 w-full sm:w-1/2 md:1/4"
                 data={prices}
                 index="hour"
                 categories={["price"]}
