@@ -71,7 +71,7 @@ export default function Page() {
                 maxValue={prices.map(i => i.price).reduce((a, b) => Math.max(a, b), -Infinity) + 0.001}
                 showLegend={false}
                 showTooltip={true}
-                xAxisLabel="Price over Hours"
+                xAxisLabel="Doge Price in USD"
             />
         }
         </>
