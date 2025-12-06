@@ -48,7 +48,7 @@ export default function Page() {
             updatePrice();
             fetchDogePrices();
 
-        }, 3600000); // 1 hour
+        }, 60_000); // 1 minute
 
         return () => clearInterval(interval);
     }, []);
