@@ -4,11 +4,13 @@ import { LineChart } from "../components/LineChart";
 import { DogePricesArchive } from "@/lib/generated/prisma/client";
 
 export default function Page() {
+    // region State Management
     // use state to hold doge prices
     const [prices, setPrices] = useState<DogePricesArchive[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
 
+    //fetch Doge prices from the api
     const fetchDogePrices = async () => {
         try {
             setLoading(true);
@@ -16,10 +18,14 @@ export default function Page() {
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data = await res.json();
-            const dogePrices = data.prices as DogePricesArchive[];
-            console.log('Fetched Doge prices:', dogePrices);
-            setPrices(dogePrices);
+            // Assuming the API returns { prices: DogePricesArchive[] }
+            const data = await res.json(); 
+            // Type assertion
+            const dogePrices = data.prices as DogePricesArchive[]; 
+            // Update state with fetched prices
+            setPrices(dogePrices); 
+            // Return fetched prices
+            return dogePrices;
         } catch (error) {
             console.error('Error fetching Doge prices:', error);
             return [];
@@ -28,22 +34,27 @@ export default function Page() {
         }
     }
 
+    // region UseEffect
     useEffect(() => {
+        // Initial fetch of Doge prices
         fetchDogePrices();
+        // Function to update Doge price
         const updatePrice = async () => {
             try {
+                // Call the API to update Doge price
                 const res = await fetch('/api/crypto_info', { method: 'GET' });
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
                 }
-                await res.json(); // Consume the response body
+                // Consume the response body
+                await res.json(); 
             } catch (error) {
                 console.error('Error updating Doge price:', error);
             }
         }
         // Update price immediately on mount
         updatePrice();
-        // Set interval to update price every hour
+        // Set interval to update price every minute
         const interval = setInterval(() => {
             updatePrice();
             fetchDogePrices();

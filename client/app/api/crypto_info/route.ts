@@ -3,12 +3,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma'
 
+
 const DOGE_ID = process.env.DOGE_ID; // CoinMarketCap ID for Dogecoin    
 
+// Get reference to dogePricesArchive model
 const { dogePricesArchive } = prisma;
 
 export async function GET(req: Request) {
     try {
+        // Fetch latest Dogecoin price from CoinMarketCap API
         const res = await fetch(
             `https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?id=${DOGE_ID}`,
             {
@@ -20,12 +23,13 @@ export async function GET(req: Request) {
                 },
             }
         );
+        // Parse the JSON response
         const data = await res.json();
         // Extract Dogecoin price from the response
         const dogePrice = data.data[Number(DOGE_ID)].quote.USD.price;
         // Store the fetched price in the database
         await dogePricesArchive.create({data: {price: dogePrice}})
-
+        // Return the fetched price as JSON response
         return NextResponse.json({ data: dogePrice }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
