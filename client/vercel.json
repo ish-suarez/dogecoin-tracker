@@ -2,7 +2,7 @@
     "crons": [
         {
             "path": "/api/cron/delete_old_data",
-            "schedule": "1 * */5 * * "
+            "schedule": "1 * */3 * *"
         }
     ]
 }
