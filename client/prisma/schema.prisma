@@ -19,3 +19,9 @@ model DogePricesArchive {
   createdAt DateTime @default(now())
 }
 
+model SoftDeletePrices {
+  id        Int      @id @default(autoincrement())
+  price     Float
+  deletedAt DateTime @default(now())
+}
+

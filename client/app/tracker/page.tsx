@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { LineChart } from "../components/LineChart";
-import { DogePricesArchive } from "@/lib/generated/prisma/client";
+import { Prices } from '@/util/interfaces'
 
 export default function Page() {
     // region State Management
     // use state to hold doge prices
-    const [prices, setPrices] = useState<DogePricesArchive[]>([]);
+    const [prices, setPrices] = useState<Prices[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
 
@@ -18,10 +18,11 @@ export default function Page() {
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
-            // Assuming the API returns { prices: DogePricesArchive[] }
-            const data = await res.json(); 
-            // Type assertion
-            const dogePrices = data.prices as DogePricesArchive[]; 
+            // Receive data
+            const data: { prices: Prices[] } = await res.json(); 
+            // Update 
+            console.log(data.prices)
+            const dogePrices = data.prices
             // Update state with fetched prices
             setPrices(dogePrices); 
             // Return fetched prices
@@ -54,12 +55,13 @@ export default function Page() {
         }
         // Update price immediately on mount
         updatePrice();
+
         // Set interval to update price every minute
         const interval = setInterval(() => {
             updatePrice();
             fetchDogePrices();
 
-        }, 60_000); // 1 minute
+        }, (60_000*60)*12); // 12 hours
 
         return () => clearInterval(interval);
     }, []);
@@ -74,13 +76,13 @@ export default function Page() {
                 valueFormatter={(number: number) =>
                     `${Intl.NumberFormat().format(number).toString()}`
                 }
-                yAxisWidth={60}
+                yAxisWidth={100}
                 startEndOnly
                 connectNulls
                 allowDecimals
                 minValue={prices.map(i => i.price).reduce((a, b) => Math.min(a, b), Infinity) - 0.001}
                 maxValue={prices.map(i => i.price).reduce((a, b) => Math.max(a, b), -Infinity) + 0.001}
-                showLegend={false}
+                showLegend={true}
                 showTooltip={true}
                 xAxisLabel="Doge Price in USD"
             />
