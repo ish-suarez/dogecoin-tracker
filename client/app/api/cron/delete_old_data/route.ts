@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { deleteOldData } from '@/util/prisma_util/deleteOldData';
 
-export async function DELETE(req: Request) {
-    if (req.method !== 'DELETE') {
-        return NextResponse.json({ message: 'Method not allowed' }, { status: 405 });
-    }
+export async function GET(req: Request) {
     if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
