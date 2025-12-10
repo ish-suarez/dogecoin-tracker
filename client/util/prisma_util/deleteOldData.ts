@@ -1,21 +1,12 @@
 import { prisma } from '@/lib/prisma';
 
-const { dogePricesArchive, softDeletePrices } = prisma;
+const { dogePricesArchive } = prisma;
 
 export const deleteOldData = async () => {
     try {
+        // Calculate the cutoff date for deletion (24 hours ago)
         const deletionCutoff = new Date();
-        deletionCutoff.setDate(deletionCutoff.getDate() - 3);
-
-        const oldData = await dogePricesArchive.findMany({
-            where: {
-                createdAt: {
-                    lt: deletionCutoff
-                }
-            }
-        })
-
-        await softDeletePrices.createMany({data: oldData})
+        deletionCutoff.setHours(deletionCutoff.getHours() - 24);
     
         const deletedData = await dogePricesArchive.deleteMany({
             where: {
@@ -25,9 +16,8 @@ export const deleteOldData = async () => {
             },
         });
 
-        console.log(`Deleted ${deletedData.count} old records from dogePricesArchive.`)
+        console.log(`Deleted ${deletedData?.count || 0} old records from dogePricesArchive.`)
         return deletedData
-
 
     } catch(error) {
         console.log('Error deleting old data:', error)

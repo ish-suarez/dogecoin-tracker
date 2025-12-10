@@ -61,7 +61,7 @@ export default function Page() {
             updatePrice();
             fetchDogePrices();
 
-        }, (60_000*60)*12); // 12 hours
+        }, 60_000 * 60); // 1 hour
 
         return () => clearInterval(interval);
     }, []);
