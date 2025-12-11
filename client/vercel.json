@@ -1,7 +1,7 @@
 {
     "crons": [
         {
-            "path": "/api/cron/delete_old_data",
+            "path": "/api/cron",
             "schedule": "1 * */3 * *"
         }
     ]
