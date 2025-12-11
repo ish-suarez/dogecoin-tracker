@@ -1,7 +1,6 @@
 {
     "crons": [
         {
-            "$schema": "https://dogecoin-tracker.vercel.app",
             "path": "/api/cron/delete_old_data",
             "schedule": "0 0 * * *"
         }
