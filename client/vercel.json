@@ -3,7 +3,7 @@
         {
             "$schema": "https://dogecoin-tracker.vercel.app",
             "path": "/api/cron/delete_old_data",
-            "schedule": "* * */3 * *"
+            "schedule": "0 0 * * *"
         }
     ]
 }
