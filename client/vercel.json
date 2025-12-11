@@ -1,6 +1,7 @@
 {
     "crons": [
         {
+            "$schema": "https://dogecoin-tracker.vercel.app",
             "path": "/api/cron",
             "schedule": "1 * */3 * *"
         }
