@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { getDogePrice } from '@/util/prisma_util/getDogePrice';
-import { get } from 'http';
 
 export async function GET(req: Request) {
     if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
