@@ -29,9 +29,8 @@ export default async function GET(req: Request) {
         // Store the fetched price in the database
         await dogePricesArchive.create({ data: { price: dogePrice } })
         // Return the fetched price as JSON response
-        return NextResponse.json({ data: dogePrice }, { status: 200 });
+        return NextResponse.json({ message: 'Doge price fetched successfully'});
     } catch (error) {
         return NextResponse.json({ message: 'Error fetching Doge price' }, { status: 500 });
     }
-
 }
