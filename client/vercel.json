@@ -3,6 +3,10 @@
         {
             "path": "/api/cron/delete_old_data",
             "schedule": "0 0 * * *"
+        },
+        {
+            "path": "/api/cron/get_doge_price",
+            "schedule": "0 0 * * *"
         }
     ]
 }
